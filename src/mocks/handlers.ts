@@ -1,5 +1,5 @@
-import { rest } from "msw";
-import { Item } from "../interface";
+import { rest } from 'msw';
+import { Item } from '../interface';
 
 const items = Array.from(Array(10000).keys()).map<Item>((index) => ({
   id: index,
@@ -7,16 +7,16 @@ const items = Array.from(Array(10000).keys()).map<Item>((index) => ({
 }));
 
 export const handlers = [
-  rest.get("/items", (req, res, ctx) => {
+  rest.get('/items', (req, res, ctx) => {
     const { searchParams } = req.url;
-    const query = searchParams.get("query");
+    const query = searchParams.get('query');
     if (query === null) {
       return;
     }
 
     const filteredItems = items.filter((item) => item.name.includes(query));
-    const page = Number(searchParams.get("page"));
-    const size = Number(searchParams.get("size"));
+    const page = Number(searchParams.get('page'));
+    const size = Number(searchParams.get('size'));
     const totalCountOfItems = filteredItems.length;
     const totalCountOfPages = Math.ceil(totalCountOfItems / size);
 
