@@ -1,25 +1,24 @@
-import axios from 'axios';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Item } from '../interface';
-import styles from './index.module.css';
+import axios from "axios";
+import Image from "next/image";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { Item } from "../interface";
+import styles from "./index.module.css";
 
 const PAGE_SIZE = 10;
 const HALF_OF_PAGE_SIZE = PAGE_SIZE / 2;
 
 function Home() {
   const [items, setItems] = useState<Item[]>([]);
-  const [targetElement, setTargetElement] = useState<HTMLDivElement | null>(
-    null
-  );
+  const [targetElement, setTargetElement] = useState<HTMLDivElement | null>(null);
   const scrollElementRef = useRef<HTMLDivElement>(null);
 
-  const queryRef = useRef('');
+  const queryRef = useRef("");
   const pageRef = useRef(0);
   const isLastPageRef = useRef(false);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    if (value === '') {
+    if (value === "") {
       setItems([]);
       return;
     }
@@ -30,13 +29,11 @@ function Home() {
 
     isLastPageRef.current = false;
     queryRef.current = value;
-    axios
-      .get('/items', { params: { query: value, page: 0, size: PAGE_SIZE } })
-      .then(({ data }) => {
-        setItems(data.items);
-        pageRef.current = data.page;
-        isLastPageRef.current = data.isLastPage;
-      });
+    axios.get("/api/items", { params: { query: value, page: 0, size: PAGE_SIZE } }).then(({ data }) => {
+      setItems(data.items);
+      pageRef.current = data.page;
+      isLastPageRef.current = data.isLastPage;
+    });
   };
 
   useEffect(() => {
@@ -49,7 +46,7 @@ function Home() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             axios
-              .get('/items', {
+              .get("/api/items", {
                 params: {
                   query: queryRef.current,
                   page: pageRef.current + 1,
@@ -98,8 +95,10 @@ function Home() {
                 setTargetElement(instance);
               }
             }}
+            style={{ backgroundColor: (index - 5) % PAGE_SIZE === 0 ? "lemonchiffon" : undefined }}
           >
-            {item.name}
+            <Image src={item.image} width={100} height={100} />
+            <span>{item.name}</span>
           </div>
         ))}
       </div>

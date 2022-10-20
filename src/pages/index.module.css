@@ -9,10 +9,15 @@
 .scrollElement {
   flex-basis: 400px;
   overflow-y: scroll;
+  border: 2px solid lightgrey;
 }
 
 .item {
   height: 100px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .title {
