@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST={"../mocks/index.ts -> ./browser":{id:8278,files:["static/chunks/436.18885d3f1a433fae.js","static/chunks/278.bf848120ded577f7.js"]},"../mocks/index.ts -> ./server":{id:8711,files:["static/chunks/436.18885d3f1a433fae.js","static/chunks/166.25af536aa16a5135.js","static/chunks/711.ffd7d24704567165.js"]}};
