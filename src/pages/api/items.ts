@@ -4,7 +4,7 @@ import { Item } from "../../interface";
 const items = Array.from(Array(10000).keys()).map<Item>((index) => ({
   id: index,
   name: `item${index}`,
-  image: `https://i.pravatar.cc/100?img=${String(index).slice(-1)}`,
+  image: `https://picsum.photos/100?key=${index}`,
 }));
 
 export default (req: NextApiRequest, res: NextApiResponse) => {

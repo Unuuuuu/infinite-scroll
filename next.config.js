@@ -6,9 +6,7 @@ const nextConfig = {
     esmExternals: false,
   },
   images: {
-    domains: ["i.pravatar.cc"],
-    minimumCacheTTL: 1,
-    unoptimized: true,
+    domains: ["picsum.photos"],
   },
 };
 
