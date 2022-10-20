@@ -1,23 +1,25 @@
-import axios from "axios";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-import "./App.css";
-import { Item } from "./interface";
+import axios from 'axios';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { Item } from '../interface';
+import styles from './index.module.css';
 
 const PAGE_SIZE = 10;
 const HALF_OF_PAGE_SIZE = PAGE_SIZE / 2;
 
-function App() {
+function Home() {
   const [items, setItems] = useState<Item[]>([]);
-  const [targetElement, setTargetElement] = useState<HTMLDivElement | null>(null);
+  const [targetElement, setTargetElement] = useState<HTMLDivElement | null>(
+    null
+  );
   const scrollElementRef = useRef<HTMLDivElement>(null);
 
-  const queryRef = useRef("");
+  const queryRef = useRef('');
   const pageRef = useRef(0);
   const isLastPageRef = useRef(false);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    if (value === "") {
+    if (value === '') {
       setItems([]);
       return;
     }
@@ -28,11 +30,13 @@ function App() {
 
     isLastPageRef.current = false;
     queryRef.current = value;
-    axios.get("/items", { params: { query: value, page: 0, size: PAGE_SIZE } }).then(({ data }) => {
-      setItems(data.items);
-      pageRef.current = data.page;
-      isLastPageRef.current = data.isLastPage;
-    });
+    axios
+      .get('/items', { params: { query: value, page: 0, size: PAGE_SIZE } })
+      .then(({ data }) => {
+        setItems(data.items);
+        pageRef.current = data.page;
+        isLastPageRef.current = data.isLastPage;
+      });
   };
 
   useEffect(() => {
@@ -45,7 +49,13 @@ function App() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             axios
-              .get("/items", { params: { query: queryRef.current, page: pageRef.current + 1, size: PAGE_SIZE } })
+              .get('/items', {
+                params: {
+                  query: queryRef.current,
+                  page: pageRef.current + 1,
+                  size: PAGE_SIZE,
+                },
+              })
               .then(({ data }) => {
                 setItems((prevItems) => [...prevItems, ...data.items]);
                 pageRef.current = data.page;
@@ -71,13 +81,13 @@ function App() {
   }, [items]);
 
   return (
-    <div className="container">
-      <header>header</header>
+    <div className={styles.container}>
+      <header className={styles.title}>header</header>
       <input type="text" onChange={handleInputChange} />
-      <div className="scroll-element" ref={scrollElementRef}>
+      <div className={styles.scrollElement} ref={scrollElementRef}>
         {items.map((item, index) => (
           <div
-            className="item"
+            className={styles.item}
             key={item.id}
             ref={(instance) => {
               if (isLastPageRef.current) {
@@ -97,4 +107,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
